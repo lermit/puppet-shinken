@@ -2,11 +2,11 @@
 
 This is a Puppet module for shinken based on the second generation layout ("NextGen") of Example42 Puppet Modules.
 
-Made by Alessandro Franceschi / Lab42
+Made by Romain THERRAT
 
 Official site: http://www.example42.com
 
-Official git repository: http://github.com/example42/puppet-shinken
+Official git repository: http://github.com/lermit/puppet-shinken
 
 Released under the terms of Apache 2 License.
 
@@ -53,10 +53,10 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 
 ## USAGE - Overrides and Customizations
-* Use custom sources for main config file 
+* Use custom sources for main config file
 
         class { 'shinken':
-          source => [ "puppet:///modules/example42/shinken/shinken.conf-${hostname}" , "puppet:///modules/example42/shinken/shinken.conf" ], 
+          source => [ "puppet:///modules/example42/shinken/shinken.conf-${hostname}" , "puppet:///modules/example42/shinken/shinken.conf" ],
         }
 
 
@@ -67,7 +67,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           source_dir_purge => false, # Set to true to purge any existing file not present in $source_dir
         }
 
-* Use custom template for main config file. Note that template and source arguments are alternative. 
+* Use custom template for main config file. Note that template and source arguments are alternative.
 
         class { 'shinken':
           template => 'example42/shinken/shinken.conf.erb',
@@ -80,18 +80,18 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-## USAGE - Example42 extensions management 
+## USAGE - Example42 extensions management
 * Activate puppi (recommended, but disabled by default)
 
         class { 'shinken':
           puppi    => true,
         }
 
-* Activate puppi and use a custom puppi_helper template (to be provided separately with a puppi::helper define ) to customize the output of puppi commands 
+* Activate puppi and use a custom puppi_helper template (to be provided separately with a puppi::helper define ) to customize the output of puppi commands
 
         class { 'shinken':
           puppi        => true,
-          puppi_helper => 'myhelper', 
+          puppi_helper => 'myhelper',
         }
 
 * Activate automatic monitoring (recommended, but disabled by default). This option requires the usage of Example42 monitor and relevant monitor tools modules
@@ -103,7 +103,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 * Activate automatic firewalling. This option requires the usage of Example42 firewall and relevant firewall tools modules
 
-        class { 'shinken':       
+        class { 'shinken':
           firewall      => true,
           firewall_tool => 'iptables',
           firewall_src  => '10.42.0.0/24',
@@ -113,4 +113,4 @@ For detailed info about the logic and usage patterns of Example42 modules check 
 
 ## CONTINUOUS TESTING
 
-Travis {<img src="https://travis-ci.org/example42/puppet-shinken.png?branch=master" alt="Build Status" />}[https://travis-ci.org/example42/puppet-shinken]
+[![Build Status](https://travis-ci.org/lermit/puppet-shinken.png?branch=master)](https://travis-ci.org/lermit/puppet-shinken)
