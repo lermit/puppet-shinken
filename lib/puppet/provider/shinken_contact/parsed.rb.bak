@@ -1,0 +1,34 @@
+require 'puppet/provider/parsedfile'
+
+# Contact dir should be retreive from fact
+# contact_dir = case Facter.value(:shinken_contact_dir)
+contact_dir = "/etc/shinken/contacts"
+target = "#{contact_dir}/#{resource[:contact_name]}.cfg"
+
+Puppet::Type.type(:shinken_contact).provide(:parsed, :parent => Puppet::Provider::ParsedFile, :default_target => target, :filetype => :flat) do
+
+  text_line :comment, :match => /^\s*#/
+  text_line :blank, :match => /^\s*$/
+
+  record_line :parsed, :fields => %w{name home atboot description},
+    :optional   => %w{description},
+    :match      => /^\s*(.*?):(.*?):(.*?)\s*(?:#\s*(.*))?$/,
+    :post_parse => proc { |h|
+      h[:atboot] = :yes if h[:atboot] == 'Y'
+      h[:atboot] = :no if h[:atboot] == 'N'
+      h
+    },
+    :pre_gen    => proc { |h|
+      h[:atboot] = 'Y' if h[:atboot] == :yes
+      h[:atboot] = 'N' if h[:atboot] == :no
+      h
+    },
+    :to_line    => proc { |h|
+      str = "#{h[:name]}:#{h[:home]}:#{h[:atboot]}"
+      if description = h[:description] and description != :absent and !description.empty?
+        str += " # #{description}"
+      end
+      str
+    }
+  end
+end
