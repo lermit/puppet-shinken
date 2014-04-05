@@ -4,21 +4,13 @@ class Puppet::Provider::Shinken < Puppet::Provider
 
   @@shinken_initialized = false
 
-  # From now this function is not realy usefull cause resource hash and
-  # resulting data hash will alway be the same but in the future this method
-  # should be used to manage dynamic parameters.
+  # Convert ressource to an hash
   def resource_to_data(resource)
     data = {}
-    @@shinken_classvars[:parameter].each do |name|
-      if resource[name]
-        data[name] = resource[name]
-      else
-        # This should be handle by validate method
-        fail "Mandatory"
-      end
-    end
 
-    @@shinken_classvars[:property].each do |name|
+    resource.parameters.each do |name|
+      name = name[0]
+      next if [:ensure,:provider,:loglevel].include?(name)
       if resource[name]
         data[name] = resource[name]
       end
