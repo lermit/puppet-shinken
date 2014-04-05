@@ -9,8 +9,6 @@ Puppet::Type.type(:shinken_contact).provide :mongodb, :parent => Puppet::Provide
     :collection => nil,
 
     :primary_id => 'contact_name',
-
-    :initialized => false,
   }
 
   desc "MongoDB provider for shinken_contact"

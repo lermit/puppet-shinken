@@ -2,6 +2,8 @@ require 'puppet/provider'
 
 class Puppet::Provider::Shinken < Puppet::Provider
 
+  @@shinken_initialized = false
+
   # From now this function is not realy usefull cause resource hash and
   # resulting data hash will alway be the same but in the future this method
   # should be used to manage dynamic parameters.

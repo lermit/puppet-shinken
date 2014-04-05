@@ -55,7 +55,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
     debug "Initialize shinken mongodb provider"
     super(*args)
 
-    if not @@shinken_classvars[:initialized]
+    if not @@shinken_initialized
 
       # First connect to mongodb
       connect
@@ -65,7 +65,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
       create_property_method
 
       # Store state
-      @@shinken_classvars[:initialized] = true
+      @@shinken_initialized = true
     end
 
   end
