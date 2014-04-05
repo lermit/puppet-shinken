@@ -10,15 +10,15 @@ Puppet::Type.newtype(:shinken_host) do
     desc "The host name."
   end
 
-  newparam(:alias) do
+  newproperty(:alias) do
     desc "The host alias."
   end
 
-  newparam(:address) do
+  newproperty(:address) do
     desc "IP address of the host."
   end
 
-  newparam(:use) do
+  newproperty(:use) do
     desc "Host template for the host."
   end
 
