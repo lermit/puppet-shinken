@@ -23,10 +23,11 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
   # Get an value of current object
   def get_value(name)
-    @@shinken_classvars[:collection].find_one(get_search_query)[name]
+    @@shinken_classvars[:collection].find_one(get_search_query)["#{name}"]
   end
 
   # Set a value for current object
+  # TODO use flush method
   def set_value(name, value)
     @@shinken_classvars[:collection].update(
       get_search_query,
@@ -36,7 +37,8 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
   # Create all property method
   def create_property_method
-    @@shinken_classvars[:property].each do |name|
+    @resource.class.properties.each do |type|
+      name = type.name
       self.class.send(:define_method, name) do
         get_value(name)
       end
