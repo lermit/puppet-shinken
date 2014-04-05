@@ -1,8 +1,4 @@
-require 'mongo'
 require 'puppet/provider/shinken_mongodb'
-
-include Mongo
-
 
 Puppet::Type.type(:shinken_contact).provide :mongodb, :parent => Puppet::Provider::Shinken_mongodb do
 

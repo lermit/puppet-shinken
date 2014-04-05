@@ -1,12 +1,15 @@
 require 'puppet/provider/shinken'
+require 'mongo'
+
+include Mongo
 
 class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
-  # Connect a Mongodb collection and store connection into 
+  # Connect a Mongodb collection and store connection into
   # shinken_classvars[:collection]
   def connect
     debug "MongoDB connection to #{@@shinken_classvars[:collection_name]} collection"
-    @@shinken_classvars[:collection] = 
+    @@shinken_classvars[:collection] =
       MongoClient.new.db(
         'shinken'
       ).collection(
@@ -57,7 +60,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
       # First connect to mongodb
       connect
 
-      # Create puppet property method in order to allow retreiving and 
+      # Create puppet property method in order to allow retreiving and
       # modification
       create_property_method
 
