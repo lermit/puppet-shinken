@@ -5,11 +5,12 @@ include Mongo
 
 class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
-  # Connect a Mongodb collection and store connection into
-  # shinken_classvars[:collection]
+  @@collection = nil
+
+  # Connect a Mongodb collection and store connection into @@collection
   def connect
     debug "MongoDB connection to #{@@shinken_classvars[:collection_name]} collection"
-    @@shinken_classvars[:collection] =
+    @@collection =
       MongoClient.new.db(
         'shinken'
       ).collection(
@@ -26,13 +27,13 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
   # Get an value of current object
   def get_value(name)
-    @@shinken_classvars[:collection].find_one(get_search_query)["#{name}"]
+    @@collection.find_one(get_search_query)["#{name}"]
   end
 
   # Set a value for current object
   # TODO use flush method
   def set_value(name, value)
-    @@shinken_classvars[:collection].update(
+    @@collection.update(
       get_search_query,
       { "$set" => { name => value }}
     )
@@ -71,7 +72,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
   end
 
   def exists?
-    nb = @@shinken_classvars[:collection].find({
+    nb = @@collection.find({
       @@shinken_classvars[:primary_id] => resource[@@shinken_classvars[:primary_id]]
     }).count
     if nb == 1
@@ -86,7 +87,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
   def destroy
     debug "Destroy"
-    @@shinken_classvars[:collection].remove({
+    @@collection.remove({
       @@shinken_classvars[:primary_id] => "#{@resource[@@shinken_classvars[:primary_id]]}"
     })
   end
@@ -94,7 +95,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
   def create
     debug "Create"
     data = resource_to_data(resource)
-    @@shinken_classvars[:collection].insert(data)
+    @@collection.insert(data)
   end
 
 end
