@@ -18,62 +18,62 @@ Puppet::Type.newtype(:shinken_contact) do
     isnamevar
   end
 
-  newparam(:use) do
+  newproperty(:use) do
     defaultto "generic-contact"
   end
 
-  newparam(:alias) do
+  newproperty(:alias) do
   end
 
-  newparam(:contactgroups) do
+  newproperty(:contactgroups) do
   end
 
-  newparam(:host_notifications_enabled) do
+  newproperty(:host_notifications_enabled) do
   end
 
-  newparam(:service_notifications_enabled) do
+  newproperty(:service_notifications_enabled) do
   end
 
-  newparam(:host_notification_period) do
+  newproperty(:host_notification_period) do
   end
 
-  newparam(:service_notification_period) do
+  newproperty(:service_notification_period) do
   end
 
-  newparam(:host_notification_options) do
+  newproperty(:host_notification_options) do
   end
 
-  newparam(:service_notification_options) do
+  newproperty(:service_notification_options) do
   end
 
-  newparam(:host_notification_commands) do
+  newproperty(:host_notification_commands) do
   end
 
-  newparam(:service_notification_commands) do
+  newproperty(:service_notification_commands) do
   end
 
-  newparam(:email) do
+  newproperty(:email) do
   end
 
-  newparam(:pager) do
+  newproperty(:pager) do
   end
 
-  newparam(:addressx) do
+  newproperty(:addressx) do
   end
 
-  newparam(:can_submit_commands) do
+  newproperty(:can_submit_commands) do
   end
 
-  newparam(:is_admin) do
+  newproperty(:is_admin) do
   end
 
-  newparam(:retain_status_information) do
+  newproperty(:retain_status_information) do
   end
 
-  newparam(:retain_nonstatus_information) do
+  newproperty(:retain_nonstatus_information) do
   end
 
-  newparam(:min_business_impact) do
+  newproperty(:min_business_impact) do
   end
 
 end
