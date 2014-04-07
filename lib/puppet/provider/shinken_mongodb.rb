@@ -7,33 +7,31 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
   @@collection = nil
 
-  # Connect a Mongodb collection and store connection into @@collection
-  def connect
-    debug "MongoDB connection to #{@@shinken_classvars[:collection_name]} collection"
-    @@collection =
-      MongoClient.new.db(
-        'shinken'
-      ).collection(
-        @@shinken_classvars[:collection_name]
-      )
+  def collection
+    if @@collection == nil
+      debug "Connect to MongoDB server"
+      # Connect a Mongodb collection and store connection into @@collection
+      @@collection = MongoClient.new.db('shinken').collection(collection_name)
+    end
+    @@collection
   end
 
   # Retrun a dict use for search current object
   def get_search_query
     {
-      @@shinken_classvars[:primary_id] => "#{resource[@@shinken_classvars[:primary_id]]}"
+      '_id' => "#{resource[:name]}"
     }
   end
 
   # Get an value of current object
   def get_value(name)
-    @@collection.find_one(get_search_query)["#{name}"]
+    collection.find_one(get_search_query)["#{name}"]
   end
 
   # Set a value for current object
   # TODO use flush method
   def set_value(name, value)
-    @@collection.update(
+    collection.update(
       get_search_query,
       { "$set" => { name => value }}
     )
@@ -53,27 +51,18 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
   end
 
   def initialize(*args)
-    debug "Initialize shinken mongodb provider"
     super(*args)
 
-    if not @@shinken_initialized
+    debug "Initialize shinken mongodb provider"
 
-      # First connect to mongodb
-      connect
-
-      # Create puppet property method in order to allow retreiving and
-      # modification
-      create_property_method
-
-      # Store state
-      @@shinken_initialized = true
-    end
-
+    # Create puppet property method in order to allow retreiving and
+    # modification
+    create_property_method
   end
 
   def exists?
-    nb = @@collection.find({
-      @@shinken_classvars[:primary_id] => resource[@@shinken_classvars[:primary_id]]
+    nb = collection.find({
+      '_id' => resource[:name]
     }).count
     if nb == 1
       true
@@ -87,15 +76,16 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
 
   def destroy
     debug "Destroy"
-    @@collection.remove({
-      @@shinken_classvars[:primary_id] => "#{@resource[@@shinken_classvars[:primary_id]]}"
+    collection.remove({
+      '_id' => "#{@resource[:name]}"
     })
   end
 
   def create
     debug "Create"
     data = resource_to_data(resource)
-    @@collection.insert(data)
+    data['_id'] = resource[:name]
+    collection.insert(data)
   end
 
 end

@@ -79,11 +79,11 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
   end
 
   def target
-    "#{@@shinken_classvars[:base_path]}/#{resource[@@shinken_classvars[:primary_id]]}.cfg"
+    "#{base_path}/#{resource[@@shinken_classvars[:name]]}.cfg"
   end
 
   def tmp_target
-    "/tmp/#{resource[@@shinken_classvars[:primary_id]]}.cfg.tmp"
+    "/tmp/#{resource[@@shinken_classvars[:name]]}.cfg.tmp"
   end
 
 end
