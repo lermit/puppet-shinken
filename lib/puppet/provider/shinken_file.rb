@@ -11,7 +11,7 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
       name = type.name
       self.class.send(:define_method, name) do
         # Ugly but working ...
-        value = open(target).grep(/#{name}/)[0].gsub(/.* *=> *(.*).*$/, '\1').chomp
+        value = open(target).grep(/#{name}/)[0].gsub(/\s*\S+\s*(.*)$/, '\1').chomp
       end
       self.class.send(:define_method, "#{name}=") do
       end
