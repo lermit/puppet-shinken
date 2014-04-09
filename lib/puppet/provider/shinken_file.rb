@@ -24,7 +24,7 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
     content = "#File managed by puppet\n\n"
     content += "define contact {\n"
     data.each do |option_key, option_value|
-      content += "  #{option_key} => #{option_value}\n"
+      content += "  #{option_key} #{option_value}\n"
     end
     content += "}\n"
     content
@@ -37,14 +37,7 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
 
   def initialize(*args)
     super(*args)
-
-    if not @@shinken_initialized
-
-      create_property_method
-
-      # Store state
-      @@shinken_initialized = true
-    end
+    create_property_method
   end
 
   def flush
@@ -79,11 +72,11 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
   end
 
   def target
-    "#{base_path}/#{resource[@@shinken_classvars[:name]]}.cfg"
+    "#{base_path}/#{resource[:name]}.cfg"
   end
 
   def tmp_target
-    "/tmp/#{resource[@@shinken_classvars[:name]]}.cfg.tmp"
+    "/tmp/#{resource[:name]}.cfg.tmp"
   end
 
 end

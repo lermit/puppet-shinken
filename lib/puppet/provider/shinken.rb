@@ -2,8 +2,6 @@ require 'puppet/provider'
 
 class Puppet::Provider::Shinken < Puppet::Provider
 
-  @@shinken_initialized = false
-
   # Convert ressource to an hash
   def resource_to_data(resource)
     data = {}
