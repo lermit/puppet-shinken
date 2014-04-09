@@ -42,21 +42,36 @@ Puppet::Type.newtype(:shinken_host) do
     desc "initial_state parameter"
     validate do |value|
       unless value =~ /^(o|d|u)$/
-        raise ArgumentError, "Only o,d or u is not a valid initial state"
+        raise ArgumentError, "Only o,d or u is a valid initial state"
       end
     end
   end
 
   newproperty(:max_check_attempts) do
     desc "max_check_attempts parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:check_interval) do
     desc "check_interval parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:retry_interval) do
     desc "retry_interval parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:active_checks_enabled) do
@@ -81,6 +96,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:freshness_threshold) do
     desc "freshness_threshold parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:event_handler) do
@@ -93,10 +113,20 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:low_flap_threshold) do
     desc "low_flap_threshold parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:high_flap_threshold) do
     desc "high_flap_threshold parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:flap_detection_enabled) do
@@ -129,10 +159,20 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:notification_interval) do
     desc "notification_interval parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:first_notification_delay) do
     desc "first_notification_delay parameter"
+    validate do |value|
+      unless value =~ /^\d+$/
+        raise ArgumentError, "Only number is allow"
+      end
+    end
   end
 
   newproperty(:notification_period) do

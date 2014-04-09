@@ -15,7 +15,6 @@ describe Puppet::Type.type(:shinken_host) do
 
   describe "when validating values" do
     describe "for initial_state" do
-
       it "should allow o,d or u" do
         proc { @class.new(:name => "shinken_host", :initial_state => "o")}.should_not raise_error
         proc { @class.new(:name => "shinken_host", :initial_state => "d")}.should_not raise_error
@@ -27,8 +26,103 @@ describe Puppet::Type.type(:shinken_host) do
         proc { @class.new(:name => "shinken_host", :initial_state => "t")}.should raise_error
         proc { @class.new(:name => "shinken_host", :initial_state => "w")}.should raise_error
       end
-
-
     end
+
+    describe "for max_check_attempts" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :max_check_attempts => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :max_check_attempts => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :max_check_attempts => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :max_check_attempts => "t")}.should raise_error
+      end
+    end
+
+    describe "for check_interval" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :check_interval => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :check_interval => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :check_interval => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :check_interval => "t")}.should raise_error
+      end
+    end
+
+    describe "for retry_interval" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :retry_interval => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :retry_interval => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :retry_interval => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :retry_interval => "t")}.should raise_error
+      end
+    end
+
+    describe "for freshness_threshold" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :freshness_threshold => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :freshness_threshold => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :freshness_threshold => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :freshness_threshold => "t")}.should raise_error
+      end
+    end
+
+    describe "for low_flap_threshold" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :low_flap_threshold => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :low_flap_threshold => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :low_flap_threshold => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :low_flap_threshold => "t")}.should raise_error
+      end
+    end
+
+    describe "for high_flap_threshold" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :high_flap_threshold => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :high_flap_threshold => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :high_flap_threshold => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :high_flap_threshold => "t")}.should raise_error
+      end
+    end
+
+    describe "for notification_interval" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :notification_interval => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :notification_interval => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :notification_interval => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :notification_interval => "t")}.should raise_error
+      end
+    end
+
+    describe "for first_notification_delay" do
+      it "should allow number" do
+        proc { @class.new(:name => "shinken_host", :first_notification_delay => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :first_notification_delay => "10")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :first_notification_delay => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :first_notification_delay => "t")}.should raise_error
+      end
+    end
+
   end
 end
