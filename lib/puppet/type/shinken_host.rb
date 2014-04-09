@@ -165,6 +165,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:flap_detection_options) do
     desc "flap_detection_options parameter"
+    validate do |value|
+      unless value =~ /^(o|d|u)$/
+        raise ArgumentError, "Only o,d or u is a valid value"
+      end
+    end
   end
 
   newproperty(:process_perf_data) do
@@ -226,6 +231,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:notification_options) do
     desc "notification_options parameter"
+    validate do |value|
+      unless value =~ /^(d|u|r|f|s)$/
+        raise ArgumentError, "Only o,d or u is a valid value"
+      end
+    end
   end
 
   newproperty(:notifications_enabled) do
@@ -239,6 +249,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:stalking_options) do
     desc "stalking_options parameter"
+    validate do |value|
+      unless value =~ /^(o|d|u)$/
+        raise ArgumentError, "Only o,d or u is a valid value"
+      end
+    end
   end
 
   newproperty(:notes) do
@@ -275,10 +290,20 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:second_coords) do
     desc "2d_coords parameter"
+    validate do |value|
+      unless value =~ /^\d+,\d+$/
+        raise ArgumentError, "Only XXX,XXX is a valid (where XXX is a number)"
+      end
+    end
   end
 
   newproperty(:third_coords) do
     desc "3d_coords parameter"
+    validate do |value|
+      unless value =~ /^\d+,\d+,\d+$/
+        raise ArgumentError, "Only XXX,XXX,XXX is a valid (where XXX is a number)"
+      end
+    end
   end
 
   newproperty(:failure_prediction_enabled) do
@@ -351,6 +376,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:business_impact) do
     desc "business_impact parameter"
+    validate do |value|
+      unless value =~ /^(0|1|2|3|4|5)$/
+        raise ArgumentError, "Only XXX,XXX is a valid (where XXX is a number)"
+      end
+    end
   end
 
   newproperty(:trigger) do

@@ -28,6 +28,47 @@ describe Puppet::Type.type(:shinken_host) do
       end
     end
 
+    describe "when flap_detection_options" do
+      it "should allow o,d or u" do
+        proc { @class.new(:name => "shinken_host", :flap_detection_options => "o")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :flap_detection_options => "d")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :flap_detection_options => "u")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :flap_detection_options => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :flap_detection_options => "t")}.should raise_error
+      end
+    end
+
+    describe "when notification_options" do
+      it "should allow d,u,r,f or s" do
+        proc { @class.new(:name => "shinken_host", :notification_options => "d")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :notification_options => "u")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :notification_options => "r")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :notification_options => "f")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :notification_options => "s")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :notification_options => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :notification_options => "t")}.should raise_error
+      end
+    end
+
+    describe "when stalking_options" do
+      it "should allow o,d or u" do
+        proc { @class.new(:name => "shinken_host", :stalking_options => "o")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :stalking_options => "d")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :stalking_options => "u")}.should_not raise_error
+      end
+
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :stalking_options => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :stalking_options => "t")}.should raise_error
+      end
+    end
+
     describe "for max_check_attempts" do
       it "should allow number" do
         proc { @class.new(:name => "shinken_host", :max_check_attempts => "1")}.should_not raise_error
@@ -223,6 +264,44 @@ describe Puppet::Type.type(:shinken_host) do
         proc { @class.new(:name => "shinken_host", :notifications_enabled => "a")}.should raise_error
       end
     end
+
+    describe "for business_impact" do
+      it "should allow 0,1,2,3,4 or 5" do
+        proc { @class.new(:name => "shinken_host", :business_impact => "0")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :business_impact => "1")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :business_impact => "2")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :business_impact => "3")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :business_impact => "4")}.should_not raise_error
+        proc { @class.new(:name => "shinken_host", :business_impact => "5")}.should_not raise_error
+      end
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :business_impact => "a")}.should raise_error
+      end
+    end
+
+    describe "for second_coords" do
+      it "should allow 0,1,2,3,4 or 5" do
+        proc { @class.new(:name => "shinken_host", :second_coords => "300,300")}.should_not raise_error
+      end
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :second_coords => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :second_coords => "1,2,3")}.should raise_error
+      end
+    end
+
+    describe "for third_coords" do
+      it "should allow 0,1,2,3,4 or 5" do
+        proc { @class.new(:name => "shinken_host", :third_coords => "300,300,300")}.should_not raise_error
+      end
+      it "should not allow anything else" do
+        proc { @class.new(:name => "shinken_host", :third_coords => "a")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :third_coords => "1,2")}.should raise_error
+        proc { @class.new(:name => "shinken_host", :third_coords => "1,2,3,4")}.should raise_error
+      end
+    end
+
+
+
 
   end
 end
