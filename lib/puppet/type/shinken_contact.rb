@@ -58,7 +58,22 @@ Puppet::Type.newtype(:shinken_contact) do
   newproperty(:pager) do
   end
 
-  newproperty(:addressx) do
+  newproperty(:address1) do
+  end
+
+  newproperty(:address2) do
+  end
+
+  newproperty(:address3) do
+  end
+
+  newproperty(:address4) do
+  end
+
+  newproperty(:address5) do
+  end
+
+  newproperty(:address5) do
   end
 
   newproperty(:can_submit_commands) do
@@ -70,10 +85,14 @@ Puppet::Type.newtype(:shinken_contact) do
   newproperty(:retain_status_information) do
   end
 
-  newproperty(:retain_nonstatus_information) do
-  end
-
   newproperty(:min_business_impact) do
   end
+
+  newproperty(:notificationways) do
+  end
+
+  newproperty(:password) do
+  end
+
 
 end
