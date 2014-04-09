@@ -40,6 +40,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:initial_state) do
     desc "initial_state parameter"
+    validate do |value|
+      unless value =~ /^(o|d|u)$/
+        raise ArgumentError, "Only o,d or u is not a valid initial state"
+      end
+    end
   end
 
   newproperty(:max_check_attempts) do
