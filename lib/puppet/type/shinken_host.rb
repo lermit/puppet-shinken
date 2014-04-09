@@ -378,7 +378,7 @@ Puppet::Type.newtype(:shinken_host) do
     desc "business_impact parameter"
     validate do |value|
       unless value =~ /^(0|1|2|3|4|5)$/
-        raise ArgumentError, "Only XXX,XXX is a valid (where XXX is a number)"
+        raise ArgumentError, "Only 0,1,2,3,4 or 5 is a valid business impact value"
       end
     end
   end
