@@ -76,10 +76,20 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:active_checks_enabled) do
     desc "active_checks_enabled parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:passive_checks_enabled) do
     desc "passive_checks_enabled parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:check_period) do
@@ -88,10 +98,20 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:obsess_over_host) do
     desc "obsess_over_host parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:check_freshness) do
     desc "check_freshness parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:freshness_threshold) do
@@ -109,6 +129,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:event_handler_enabled) do
     desc "event_handler_enabled parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:low_flap_threshold) do
@@ -131,6 +156,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:flap_detection_enabled) do
     desc "flap_detection_enabled parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:flap_detection_options) do
@@ -139,14 +169,29 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:process_perf_data) do
     desc "process_perf_data parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:retain_status_information) do
     desc "retain_status_information parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:retain_nonstatus_information) do
     desc "retain_nonstatus_information parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:contacts) do
@@ -185,6 +230,11 @@ Puppet::Type.newtype(:shinken_host) do
 
   newproperty(:notifications_enabled) do
     desc "notifications_enabled parameter"
+    validate do |value|
+      unless value =~ /^(0|1)$/
+        raise ArgumentError, "Only 0 or 1 is allow"
+      end
+    end
   end
 
   newproperty(:stalking_options) do
