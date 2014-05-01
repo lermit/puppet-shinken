@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/lermit/puppet-shinken.png?branch=master)](https://travis-ci.org/lermit/puppet-shinken)
+[![Coverage Status](https://coveralls.io/repos/lermit/puppet-shinken/badge.png?branch=master)](https://coveralls.io/r/lermit/puppet-shinken?branch=master)
 # Puppet module: shinken
 
 This is a Puppet module for shinken based on the second generation layout ("NextGen") of Example42 Puppet Modules.
