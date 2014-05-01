@@ -1,16 +1,21 @@
+[![Build Status](https://travis-ci.org/lermit/puppet-shinken.png?branch=master)](https://travis-ci.org/lermit/puppet-shinken)
 # Puppet module: shinken
 
 This is a Puppet module for shinken based on the second generation layout ("NextGen") of Example42 Puppet Modules.
 
 Made by Romain THERRAT
 
-Official site: http://www.example42.com
+Shinken is a monitoring system. See http://www.shinken-monitoring.org/ and/or http://shinken.io/  for more information.
 
-Official git repository: http://github.com/lermit/puppet-shinken
+For more information about Example42 puppet modules see official website: http://www.example42.com
+
+Shinken puppet module official git repository is http://github.com/lermit/puppet-shinken
 
 Released under the terms of Apache 2 License.
 
 This module requires functions provided by the Example42 Puppi module (you need it even if you don't use and install Puppi)
+
+If you plane to use custom type with mongo provider you will need to install "mongo" gem. Simply run 'bundler install' into puppet module root directory for easy installation.
 
 For detailed info about the logic and usage patterns of Example42 modules check the DOCS directory on Example42 main modules set.
 
@@ -110,7 +115,12 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           firewall_dst  => $ipaddress_eth0,
         }
 
+## TESTING
 
-## CONTINUOUS TESTING
+In order to run test you need
 
-[![Build Status](https://travis-ci.org/lermit/puppet-shinken.png?branch=master)](https://travis-ci.org/lermit/puppet-shinken)
+* Install git (aptitude install git for debian user)
+* Run 'rake spec' in root directory
+
+For more information about puppet module testing see http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing
+
