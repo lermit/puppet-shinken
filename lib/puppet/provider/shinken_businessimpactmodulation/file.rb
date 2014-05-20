@@ -6,4 +6,8 @@ Puppet::Type.type(:shinken_businessimpactmodulation).provide :file, :parent => P
     '/etc/shinken/businessimpactmodulation/'
   end
 
+  def object_type
+    'businessimpactmodulation'
+  end
+
 end

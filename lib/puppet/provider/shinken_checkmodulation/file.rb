@@ -6,4 +6,8 @@ Puppet::Type.type(:shinken_checkmodulation).provide :file, :parent => Puppet::Pr
     '/etc/shinken/checkmodulations/'
   end
 
+  def object_type
+    'checkmodulations'
+  end
+
 end

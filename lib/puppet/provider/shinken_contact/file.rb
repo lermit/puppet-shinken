@@ -6,4 +6,8 @@ Puppet::Type.type(:shinken_contact).provide :file, :parent => Puppet::Provider::
     '/etc/shinken/contacts/'
   end
 
+  def object_type
+    'contacts'
+  end
+
 end

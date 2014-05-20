@@ -6,4 +6,8 @@ Puppet::Type.type(:shinken_host).provide :file, :parent => Puppet::Provider::Shi
     '/etc/shinken/hosts/'
   end
 
+  def object_type
+    'hosts'
+  end
+
 end

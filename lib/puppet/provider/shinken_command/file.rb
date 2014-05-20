@@ -6,4 +6,8 @@ Puppet::Type.type(:shinken_command).provide :file, :parent => Puppet::Provider::
     '/etc/shinken/commands/'
   end
 
+  def object_type
+    'commands'
+  end
+
 end

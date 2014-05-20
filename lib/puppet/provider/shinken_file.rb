@@ -22,7 +22,7 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
     data = resource_to_data(resource)
 
     content = "#File managed by puppet\n\n"
-    content += "define contact {\n"
+    content += "define #{object_type} {\n"
     data.each do |option_key, option_value|
       content += "  #{option_key} #{option_value}\n"
     end
