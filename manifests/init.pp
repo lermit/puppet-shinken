@@ -367,8 +367,15 @@ class shinken (
       noop   => $shinken::bool_noops,
     }
     user { 'shinken':
+      ensure  => $shinken::manage_user,
+      name    => $shinken::process_user,
+      noop    => $shinken::bool_noops,
+      gid     => $shinken::config_file_group,
+      require => Group['shinken'],
+    }
+    group { 'shinken':
       ensure => $shinken::manage_user,
-      name   => $shinken::process_user,
+      name   => $shinken::config_file_group,
       noop   => $shinken::bool_noops,
     }
   }

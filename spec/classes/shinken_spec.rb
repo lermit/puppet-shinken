@@ -38,6 +38,7 @@ describe 'shinken' do
     let(:params) { {:absent => true, :monitor => true , :firewall => true, :port => '42', :protocol => 'tcp'} }
     it 'should remove Package[shinken]' do should contain_package('shinken').with_ensure('absent') end
     it 'should remove User[shinken]' do should contain_user('shinken').with_ensure('absent') end
+    it 'should remove User[shinken]' do should contain_group('shinken').with_ensure('absent') end
     it 'should remove Package[pip]' do should contain_package('pip').with_ensure('absent') end
     it 'should remove Package[pycurl]' do should contain_package('pycurl').with_ensure('absent') end
     it 'should stop Service[shinken]' do should contain_service('shinken').with_ensure('stopped') end
@@ -53,6 +54,7 @@ describe 'shinken' do
     it { should contain_package('pip').with_ensure('present') }
     it { should contain_package('pycurl').with_ensure('present') }
     it { should contain_user('shinken').with_ensure('present') }
+    it { should contain_group('shinken').with_ensure('present') }
     it 'should stop Service[shinken]' do should contain_service('shinken').with_ensure('stopped') end
     it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
     it { should contain_file('shinken.conf').with_ensure('present') }
@@ -76,6 +78,9 @@ describe 'shinken' do
     it { should contain_package('pip').with_ensure('present') }
     it { should contain_package('pycurl').with_ensure('present') }
     it { should contain_user('shinken').with_ensure('present') }
+    it { should contain_user('shinken').with_gid('shinken') }
+    it { should contain_user('shinken').with_require(/Group\[shinken\]/) }
+    it { should contain_group('shinken').with_ensure('present') }
     it 'Should install prerequisite before shinken' do
       should contain_package('shinken').with_require(/Package\[pip\]/)
       should contain_package('shinken').with_require(/Package\[pycurl\]/)
@@ -89,6 +94,7 @@ describe 'shinken' do
     it { should contain_package('pip').with_noop('true') }
     it { should contain_package('pycurl').with_noop('true') }
     it { should contain_user('shinken').with_noop('true') }
+    it { should contain_group('shinken').with_noop('true') }
     it { should contain_service('shinken').with_noop('true') }
     it { should contain_file('shinken.conf').with_noop('true') }
     it { should contain_monitor__process('shinken_process').with_noop('true') }
