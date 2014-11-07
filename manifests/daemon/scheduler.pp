@@ -18,6 +18,15 @@ class shinken::daemon::scheduler (
       false => true,
     },
   }
+  $manage_service_autorestart = $shinken::daemon::scheduler::bool_disable ? {
+    true  => undef,
+    false => Service['shinken-scheduler'],
+  }
+  $manage_file = $shinken::bool_absent ? {
+    true    => 'absent',
+    default => 'present',
+  }
+  $manage_file_content = template('shinken/daemon/schedulerd.ini.erb')
 
   service { 'shinken-scheduler':
     ensure    => $shinken::daemon::scheduler::manage_service_ensure,
@@ -28,5 +37,18 @@ class shinken::daemon::scheduler (
     noop      => $shinken::bool_noops,
   }
 
+  file { 'shinken-scheduler.conf':
+    ensure  => $shinken::daemon::scheduler::manage_file,
+    path    => "${shinken::config_dir}/daemons/schedulerd.ini",
+    mode    => $shinken::config_file_mode,
+    owner   => $shinken::config_file_owner,
+    group   => $shinken::config_file_group,
+    require => Package[$shinken::package],
+    notify  => $shinken::daemon::scheduler::manage_service_autorestart,
+    content => $shinken::daemon::scheduler::manage_service_autorestart,
+    replace => $shinken::manage_file_replace,
+    audit   => $shinken::manage_audit,
+    noop    => $shinken::bool_noops,
+  }
 
 } # Class:: shinken::daemon::scheduler

@@ -194,27 +194,46 @@ describe 'shinken' do
     it { should contain_service('shinken-poller').with_ensure('running') }
     it { should contain_service('shinken-poller').with_name('shinken-poller') }
     it { should contain_service('shinken-poller').with_enable('true') }
+    it { should contain_file('shinken-poller.conf').with_path('/etc/shinken/daemons/pollerd.ini') }
 
     # Broker service
     it { should contain_service('shinken-broker').with_ensure('running') }
     it { should contain_service('shinken-broker').with_name('shinken-broker') }
     it { should contain_service('shinken-broker').with_enable('true') }
+    it { should contain_file('shinken-broker.conf').with_path('/etc/shinken/daemons/brokerd.ini') }
 
     # Arbiter service
     it { should contain_service('shinken-arbiter').with_ensure('stopped') }
     it { should contain_service('shinken-arbiter').with_name('shinken-arbiter') }
     it { should contain_service('shinken-arbiter').with_enable('false') }
+    it { should contain_file('shinken-arbiter.conf').with_path('/etc/shinken/shinken.cfg') }
 
     # Scheduler
     it { should contain_service('shinken-scheduler').with_ensure('stopped') }
     it { should contain_service('shinken-scheduler').with_name('shinken-scheduler') }
     it { should contain_service('shinken-scheduler').with_enable('false') }
+    it { should contain_file('shinken-scheduler.conf').with_path('/etc/shinken/daemons/schedulerd.ini') }
 
     # Reactionner
     it { should contain_service('shinken-reactionner').with_ensure('stopped') }
     it { should contain_service('shinken-reactionner').with_name('shinken-reactionner') }
     it { should contain_service('shinken-reactionner').with_enable('false') }
+    it { should contain_file('shinken-reactionner.conf').with_path('/etc/shinken/daemons/reactionnerd.ini') }
 
+  end
+
+  describe 'Test enabled_service option auto restart and enabled_service' do
+    let(:params) { {
+      :enabled_service     => [ 'poller', 'broker' ],
+      :service_autorestart => true,
+    } }
+
+    it { should contain_file('shinken.conf').with_notify(nil) }
+    it { should contain_file('shinken-broker.conf').with_notify("Service[shinken-broker]") }
+    it { should contain_file('shinken-poller.conf').with_notify("Service[shinken-poller]") }
+    it { should contain_file('shinken-scheduler.conf').with_notify(nil) }
+    it { should contain_file('shinken-reactionner.conf').with_notify(nil) }
+    it { should contain_file('shinken-arbiter.conf').with_notify(nil) }
   end
 
 end
