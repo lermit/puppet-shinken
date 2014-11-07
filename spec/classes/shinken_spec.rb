@@ -183,5 +183,39 @@ describe 'shinken' do
     it 'should honour passed params over global vars' do should contain_monitor__process('shinken_process').with_enable('true') end
   end
 
+  describe 'Test enabled_service option' do
+    let(:params) { {:enabled_service => [ 'poller', 'broker' ] } }
+
+    # Global service
+    it { should contain_service('shinken').with_ensure('stopped') }
+    it { should contain_service('shinken').with_enable('false') }
+
+    # Poller service
+    it { should contain_service('shinken-poller').with_ensure('running') }
+    it { should contain_service('shinken-poller').with_name('shinken-poller') }
+    it { should contain_service('shinken-poller').with_enable('true') }
+
+    # Broker service
+    it { should contain_service('shinken-broker').with_ensure('running') }
+    it { should contain_service('shinken-broker').with_name('shinken-broker') }
+    it { should contain_service('shinken-broker').with_enable('true') }
+
+    # Arbiter service
+    it { should contain_service('shinken-arbiter').with_ensure('stopped') }
+    it { should contain_service('shinken-arbiter').with_name('shinken-arbiter') }
+    it { should contain_service('shinken-arbiter').with_enable('false') }
+
+    # Scheduler
+    it { should contain_service('shinken-scheduler').with_ensure('stopped') }
+    it { should contain_service('shinken-scheduler').with_name('shinken-scheduler') }
+    it { should contain_service('shinken-scheduler').with_enable('false') }
+
+    # Reactionner
+    it { should contain_service('shinken-reactionner').with_ensure('stopped') }
+    it { should contain_service('shinken-reactionner').with_name('shinken-reactionner') }
+    it { should contain_service('shinken-reactionner').with_enable('false') }
+
+  end
+
 end
 

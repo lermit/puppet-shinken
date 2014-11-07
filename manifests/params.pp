@@ -123,4 +123,6 @@ class shinken::params {
     default => 'python-pycurl',
   }
 
+  $enabled_service = ''
+
 }

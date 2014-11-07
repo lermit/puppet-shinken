@@ -18,6 +18,14 @@
 # [*pycurl_package*]
 #  The package name for pycurl installation.
 #
+# [*enabled_service*]
+#  Specify service to run. By default all services are running and statup enabled.
+#  You can, for the instance, configure puppet to only ensure poller and scheduler
+#  are running. Other service will be ensure stopped.
+#   class { 'shinken':
+#     enabled_service => [ 'poller', 'scheduler' ],
+#   }
+#
 # == Parameters
 #
 # Standard class parameters
@@ -219,6 +227,7 @@ class shinken (
   $install_prerequisite = params_lookup( 'install_prerequisite' ),
   $pip_package          = params_lookup( 'pip_package' ),
   $pycurl_package       = params_lookup( 'pycurl_package' ),
+  $enabled_service      = params_lookup( 'enabled_service' ),
   $my_class             = params_lookup( 'my_class' ),
   $source               = params_lookup( 'source' ),
   $source_dir           = params_lookup( 'source_dir' ),
@@ -295,13 +304,20 @@ class shinken (
     false => 'present',
   }
 
+  $bool_separate_service = $shinken::enabled_service ? {
+    ''      => false,
+    default => true,
+  }
   $manage_service_enable = $shinken::bool_disableboot ? {
     true    => false,
     default => $shinken::bool_disable ? {
       true    => false,
       default => $shinken::bool_absent ? {
         true  => false,
-        false => true,
+        false => $shinken::bool_separate_service ? {
+          true  => false,
+          false => true,
+        },
       },
     },
   }
@@ -310,13 +326,19 @@ class shinken (
     true    => 'stopped',
     default =>  $shinken::bool_absent ? {
       true    => 'stopped',
-      default => 'running',
+      default => $shinken::bool_separate_service ? {
+        true  => 'stopped',
+        false => 'running',
+      },
     },
   }
 
   $manage_service_autorestart = $shinken::bool_service_autorestart ? {
-    true    => Service[shinken],
-    false   => undef,
+    true  => $shinken::bool_service_autorestart ? {
+      true  => undef,
+      false => Service[shinken],
+    },
+    false => undef,
   }
 
   $manage_file = $shinken::bool_absent ? {
@@ -400,6 +422,45 @@ class shinken (
     pattern    => $shinken::process,
     require    => Package[$shinken::package],
     noop       => $shinken::bool_noops,
+  }
+
+  $manage_shinken_poller_disable = $shinken::enabled_service ? {
+    /poller/ => false,
+    default  => true,
+  }
+  $manage_shinken_scheduler_disable = $shinken::enabled_service ? {
+    /scheduler/ => false,
+    default  => true,
+  }
+  $manage_shinken_reactionner_disable = $shinken::enabled_service ? {
+    /reactionner/ => false,
+    default  => true,
+  }
+  $manage_shinken_broker_disable = $shinken::enabled_service ? {
+    /broker/ => false,
+    default  => true,
+  }
+  $manage_shinken_arbiter_disable = $shinken::enabled_service ? {
+    /arbiter/ => false,
+    default  => true,
+  }
+
+  if $shinken::bool_separate_service {
+    class { 'shinken::daemon::poller':
+      disable => $manage_shinken_poller_disable,
+    }
+    class { 'shinken::daemon::scheduler':
+      disable => $manage_shinken_scheduler_disable,
+    }
+    class { 'shinken::daemon::reactionner':
+      disable => $manage_shinken_reactionner_disable,
+    }
+    class { 'shinken::daemon::broker':
+      disable => $manage_shinken_broker_disable,
+    }
+    class { 'shinken::daemon::arbiter':
+      disable => $manage_shinken_arbiter_disable,
+    }
   }
 
   file { 'shinken.conf':
