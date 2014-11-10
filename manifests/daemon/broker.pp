@@ -5,6 +5,8 @@ class shinken::daemon::broker (
   $disable = false,
 ) {
 
+  require shinken
+
   $bool_disable = any2bool($disable)
 
   $manage_service_ensure = $shinken::daemon::broker::bool_disable ? {
@@ -45,7 +47,7 @@ class shinken::daemon::broker (
     group   => $shinken::config_file_group,
     require => Package[$shinken::package],
     notify  => $shinken::daemon::broker::manage_service_autorestart,
-    content => $shinken::daemon::broker::manage_service_autorestart,
+    content => $shinken::daemon::broker::manage_file_content,
     replace => $shinken::manage_file_replace,
     audit   => $shinken::manage_audit,
     noop    => $shinken::bool_noops,
