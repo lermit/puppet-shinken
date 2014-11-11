@@ -13,7 +13,7 @@ class Puppet::Provider::Shinken_file < Puppet::Provider::Shinken
         # Ugly but working ...
         value = open(target).grep(/#{name}/)[0].gsub(/\s*\S+\s*(.*)$/, '\1').chomp
       end
-      self.class.send(:define_method, "#{name}=") do
+      self.class.send(:define_method, "#{name}=") do |value|
       end
     end
   end

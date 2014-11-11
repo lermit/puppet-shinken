@@ -45,7 +45,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
       self.class.send(:define_method, name) do
         get_value(name)
       end
-      self.class.send(:define_method, "#{name}=") do
+      self.class.send(:define_method, "#{name}=") do |value|
         set_value(name,resource[name])
       end
     end
