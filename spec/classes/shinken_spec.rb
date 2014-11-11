@@ -10,7 +10,6 @@ describe 'shinken' do
     it { should contain_package('shinken').with_ensure('present') }
     it { should contain_service('shinken').with_ensure('running') }
     it { should contain_service('shinken').with_enable('true') }
-    it { should contain_file('shinken.conf').with_ensure('present') }
   end
 
   describe 'Test installation of a specific version' do
@@ -23,7 +22,6 @@ describe 'shinken' do
     it { should contain_package('shinken').with_ensure('present') }
     it { should contain_service('shinken').with_ensure('running') }
     it { should contain_service('shinken').with_enable('true') }
-    it { should contain_file('shinken.conf').with_ensure('present') }
     it { should contain_monitor__process('shinken_process').with_enable('true') }
     it { should contain_firewall('shinken_tcp_42').with_enable('true') }
   end
@@ -43,7 +41,6 @@ describe 'shinken' do
     it 'should remove Package[pycurl]' do should contain_package('pycurl').with_ensure('absent') end
     it 'should stop Service[shinken]' do should contain_service('shinken').with_ensure('stopped') end
     it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
-    it 'should remove shinken configuration file' do should contain_file('shinken.conf').with_ensure('absent') end
     it { should contain_monitor__process('shinken_process').with_enable('false') }
     it { should contain_firewall('shinken_tcp_42').with_enable('false') }
   end
@@ -57,7 +54,6 @@ describe 'shinken' do
     it { should contain_group('shinken').with_ensure('present') }
     it 'should stop Service[shinken]' do should contain_service('shinken').with_ensure('stopped') end
     it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
-    it { should contain_file('shinken.conf').with_ensure('present') }
     it { should contain_monitor__process('shinken_process').with_enable('false') }
     it { should contain_firewall('shinken_tcp_42').with_enable('false') }
   end
@@ -68,7 +64,6 @@ describe 'shinken' do
     it { should_not contain_service('shinken').with_ensure('present') }
     it { should_not contain_service('shinken').with_ensure('absent') }
     it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
-    it { should contain_file('shinken.conf').with_ensure('present') }
     it { should contain_monitor__process('shinken_process').with_enable('false') }
     it { should contain_firewall('shinken_tcp_42').with_enable('true') }
   end
@@ -96,26 +91,10 @@ describe 'shinken' do
     it { should contain_user('shinken').with_noop('true') }
     it { should contain_group('shinken').with_noop('true') }
     it { should contain_service('shinken').with_noop('true') }
-    it { should contain_file('shinken.conf').with_noop('true') }
     it { should contain_monitor__process('shinken_process').with_noop('true') }
     it { should contain_monitor__process('shinken_process').with_noop('true') }
     it { should contain_monitor__port('shinken_tcp_42').with_noop('true') }
     it { should contain_firewall('shinken_tcp_42').with_noop('true') }
-  end
-
-  describe 'Test customizations - template' do
-    let(:params) { {:template => "shinken/spec.erb" , :options => { 'opt_a' => 'value_a' } } }
-    it 'should generate a valid template' do
-      should contain_file('shinken.conf').with_content(/fqdn: rspec.example42.com/)
-    end
-    it 'should generate a template that uses custom options' do
-      should contain_file('shinken.conf').with_content(/value_a/)
-    end
-  end
-
-  describe 'Test customizations - source' do
-    let(:params) { {:source => "puppet:///modules/shinken/spec"} }
-    it { should contain_file('shinken.conf').with_source('puppet:///modules/shinken/spec') }
   end
 
   describe 'Test customizations - source_dir' do
@@ -123,18 +102,6 @@ describe 'shinken' do
     it { should contain_file('shinken.dir').with_source('puppet:///modules/shinken/dir/spec') }
     it { should contain_file('shinken.dir').with_purge('true') }
     it { should contain_file('shinken.dir').with_force('true') }
-  end
-
-  describe 'Test customizations - custom class' do
-    let(:params) { {:my_class => "shinken::spec" } }
-    it { should contain_file('shinken.conf').with_content(/rspec.example42.com/) }
-  end
-
-  describe 'Test service autorestart' do
-    let(:params) { {:service_autorestart => "no" } }
-    it 'should not automatically restart the service, when service_autorestart => false' do
-      should contain_file('shinken.conf').with_notify(nil)
-    end
   end
 
   describe 'Test Puppi Integration' do
@@ -228,7 +195,6 @@ describe 'shinken' do
       :service_autorestart => true,
     } }
 
-    it { should contain_file('shinken.conf').with_notify(nil) }
     it { should contain_file('shinken-broker.conf').with_notify("Service[shinken-broker]") }
     it { should contain_file('shinken-poller.conf').with_notify("Service[shinken-poller]") }
     it { should contain_file('shinken-scheduler.conf').with_notify(nil) }

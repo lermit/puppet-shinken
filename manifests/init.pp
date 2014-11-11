@@ -463,21 +463,6 @@ class shinken (
     }
   }
 
-  file { 'shinken.conf':
-    ensure  => $shinken::manage_file,
-    path    => $shinken::config_file,
-    mode    => $shinken::config_file_mode,
-    owner   => $shinken::config_file_owner,
-    group   => $shinken::config_file_group,
-    require => Package[$shinken::package],
-    notify  => $shinken::manage_service_autorestart,
-    source  => $shinken::manage_file_source,
-    content => $shinken::manage_file_content,
-    replace => $shinken::manage_file_replace,
-    audit   => $shinken::manage_audit,
-    noop    => $shinken::bool_noops,
-  }
-
   # The whole shinken configuration directory can be recursively overriden
   if $shinken::source_dir {
     file { 'shinken.dir':
