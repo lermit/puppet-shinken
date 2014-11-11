@@ -4,7 +4,6 @@ require 'mongo' if Puppet.features.mongo?
 include Mongo
 
 class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
-  confine :feature => :mongo
 
   @@collection = nil
 
