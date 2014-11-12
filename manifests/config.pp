@@ -25,6 +25,10 @@
 #  restart shinken-arbiter by default.
 #  Default: ''
 #
+# [*options*]
+#  Config options as an hash.
+#  Default: {}
+#
 define shinken::config(
   $type,
   $ensure  = 'present',
@@ -48,7 +52,7 @@ define shinken::config(
 
   file { "shinken-config-${name}":
     ensure  => $ensure,
-    path    => "${shinken::config_dir}/${name}",
+    path    => $manage_path,
     mode    => $shinken::config_file_mode,
     owner   => $shinken::config_file_owner,
     group   => $shinken::config_file_group,

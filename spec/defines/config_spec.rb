@@ -32,6 +32,14 @@ describe 'shinken::config', :type => :define do
     it { should contain_file('shinken-config-module/path.cfg').with_notify(nil) }
   end
 
+  describe 'Test config_file options' do
+    let(:params) { {
+      :type => 'module',
+      :path => 'conf/42.cfg',
+    } }
+    it { should contain_file('shinken-config-module/path.cfg').with_path('/etc/shinken/conf/42.cfg') }
+  end
+
   describe 'Test options options' do
     let(:params) { {
       :type    => 'module',
