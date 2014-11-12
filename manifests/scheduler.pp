@@ -53,7 +53,6 @@ define shinken::scheduler(
     $manage_satellitemap = $satellitemap
   }
 
-  $resource_type = 'scheduler'
   $resource_options = {
     'scheduler_name'      => $scheduler_name,
     'address'             => $address,
@@ -72,18 +71,10 @@ define shinken::scheduler(
     'satellitemap'        => $manage_satellitemap,
   }
 
-  file { "shinken-scheduler-${name}.cfg":
+  shinken::config { "schedulers/${name}.cfg":
     ensure  => $shinken::daemon::scheduler::manage_file,
-    path    => "${shinken::config_dir}/schedulers/${name}.cfg",
-    mode    => $shinken::config_file_mode,
-    owner   => $shinken::config_file_owner,
-    group   => $shinken::config_file_group,
-    require => Package[$shinken::package],
-    notify  => $shinken::daemon::scheduler::manage_service_autorestart,
-    content => template('shinken/simple.cfg.erb'),
-    replace => $shinken::manage_file_replace,
-    audit   => $shinken::manage_audit,
-    noop    => $shinken::bool_noops,
+    type    => 'scheduler',
+    options => $resource_options,
   }
 
 } # Define:: shinken::scheduler

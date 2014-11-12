@@ -51,7 +51,6 @@ define shinken::poller(
     $manage_module  = $modules
   }
 
-  $resource_type = 'poller'
   $resource_options = {
     'poller_name'         => $poller_name,
     'address'             => $address,
@@ -73,18 +72,10 @@ define shinken::poller(
     'hard_ssl_name_check' => $manage_hard_ssl_name_check,
   }
 
-  file { "shinken-poller-${name}.cfg":
+  shinken::config { "pollers/${name}.cfg":
     ensure  => $shinken::daemon::poller::manage_file,
-    path    => "${shinken::config_dir}/pollers/${name}.cfg",
-    mode    => $shinken::config_file_mode,
-    owner   => $shinken::config_file_owner,
-    group   => $shinken::config_file_group,
-    require => Package[$shinken::package],
-    notify  => $shinken::daemon::poller::manage_service_autorestart,
-    content => template('shinken/simple.cfg.erb'),
-    replace => $shinken::manage_file_replace,
-    audit   => $shinken::manage_audit,
-    noop    => $shinken::bool_noops,
+    type    => 'poller',
+    options => $resource_options,
   }
 
 } # Define:: shinken::poller

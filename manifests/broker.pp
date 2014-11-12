@@ -52,7 +52,6 @@ define shinken::broker(
     $manage_module  = $modules
   }
 
-  $resource_type = 'broker'
   $resource_options = {
     'broker_name'         => $broker_name,
     'address'             => $address,
@@ -70,18 +69,10 @@ define shinken::broker(
     'hard_ssl_name_check' => $manage_hard_ssl_name_check,
   }
 
-  file { "shinken-broker-${name}.cfg":
+  shinken::config { "brokers/${name}.cfg":
     ensure  => $shinken::daemon::broker::manage_file,
-    path    => "${shinken::config_dir}/brokers/${name}.cfg",
-    mode    => $shinken::config_file_mode,
-    owner   => $shinken::config_file_owner,
-    group   => $shinken::config_file_group,
-    require => Package[$shinken::package],
-    notify  => $shinken::daemon::broker::manage_service_autorestart,
-    content => template('shinken/simple.cfg.erb'),
-    replace => $shinken::manage_file_replace,
-    audit   => $shinken::manage_audit,
-    noop    => $shinken::bool_noops,
+    type    => 'broker',
+    options => $resource_options,
   }
 
 } # Define:: shinken::broker
