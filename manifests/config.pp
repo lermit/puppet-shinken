@@ -20,7 +20,7 @@
 #  /etc/shinken/arbiters/master.cfg
 #  Default: $name
 #
-# [*notify*]
+# [*service_notify*]
 #  Service to notify. Depending if $autorestart is globaly enabled we will
 #  restart shinken-arbiter by default.
 #  Default: ''
@@ -31,16 +31,16 @@
 #
 define shinken::config(
   $type,
-  $ensure  = 'present',
-  $path    = $name,
-  $notify  = '',
-  $options = {}
+  $ensure         = 'present',
+  $path           = $name,
+  $service_notify = '',
+  $options        = {}
 ) {
 
   require shinken
 
   $manage_path = "${shinken::config_dir}/${path}"
-  $manage_notify = $notify ? {
+  $manage_notify = $service_notify ? {
     '' => $shinken::bool_service_autorestart ? {
       true  => Service['shinken-arbiter'],
       false => undef,
