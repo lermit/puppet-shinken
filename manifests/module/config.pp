@@ -1,7 +1,6 @@
 # Define:: shinken::module::config
 #  add a config for specified module.
 #
-#
 # [*ensure*]
 #  present or absent
 #  Default: present
@@ -37,7 +36,8 @@ define shinken::module::config (
       'module_name' => $mod_name,
       'module_type' => $mod_type,
     },
-    $options)
+    $options
+  )
 
   file { "shinken-module-${title}.cfg":
     ensure  => $ensure,
