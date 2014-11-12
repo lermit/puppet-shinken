@@ -47,7 +47,7 @@ define shinken::arbiter(
 
   shinken::config { "arbiters/${name}.cfg":
     ensure  => $shinken::daemon::arbiter::manage_file,
-    type    => 'arbiters',
+    type    => 'arbiter',
     options => $resource_options,
   }
 
