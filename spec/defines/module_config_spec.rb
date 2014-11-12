@@ -10,16 +10,16 @@ describe 'shinken::module::config', :type => :define do
   let(:node) { 'rspec.example42.com' }
 
   describe 'Test standard usage creation' do
-    it { should contain_file('shinken-module-module42.cfg').with_path('/etc/shinken/modules/module42.cfg') }
-    it { should contain_file('shinken-module-module42.cfg').with_content(/module_name module42/) }
-    it { should contain_file('shinken-module-module42.cfg').with_content(/module_type module42/) }
+    it { should contain_file('shinken-config-module-module42').with_path('/etc/shinken/modules/module42.cfg') }
+    it { should contain_file('shinken-config-module-module42').with_content(/module_name module42/) }
+    it { should contain_file('shinken-config-module-module42').with_content(/module_type module42/) }
   end
 
   describe 'Test config_file options' do
     let(:params) { {
      :config_file => 'my_module.cfg',
     } }
-    it { should contain_file('shinken-module-module42.cfg').with_path('/etc/shinken/modules/my_module.cfg') }
+    it { should contain_file('shinken-config-module-module42').with_path('/etc/shinken/modules/my_module.cfg') }
   end
 
   describe 'Test options options' do
@@ -29,7 +29,7 @@ describe 'shinken::module::config', :type => :define do
       },
     } }
 
-    it { should contain_file('shinken-module-module42.cfg').with_content(/name42 value42/) }
+    it { should contain_file('shinken-config-module-module42').with_content(/name42 value42/) }
   end
 
 end

@@ -39,18 +39,11 @@ define shinken::module::config (
     $options
   )
 
-  file { "shinken-module-${title}.cfg":
+  shinken::config { "module-${title}":
     ensure  => $ensure,
-    path    => "${shinken::config_dir}/modules/${config_file}",
-    mode    => $shinken::config_file_mode,
-    owner   => $shinken::config_file_owner,
-    group   => $shinken::config_file_group,
-    require => Package[$shinken::package],
-    content => template('shinken/simple.cfg.erb'),
-    replace => $shinken::manage_file_replace,
-    audit   => $shinken::manage_audit,
-    noop    => $shinken::bool_noops,
+    type    => 'module',
+    path    => "modules/${config_file}",
+    options => $resource_options,
   }
-
 
 } # Define:: shinken::module::config
