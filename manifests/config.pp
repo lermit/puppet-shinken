@@ -48,6 +48,7 @@ define shinken::config(
     default => undef,
   }
 
+  $resource_type = $type
   $resource_options = $options
 
   file { "shinken-config-${name}":

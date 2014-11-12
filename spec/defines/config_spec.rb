@@ -51,4 +51,8 @@ describe 'shinken::config', :type => :define do
     it { should contain_file('shinken-config-module/path.cfg').with_content(/name42 value42/) }
   end
 
+  describe 'Test type arg' do
+    it { should contain_file('shinken-config-module/path.cfg').with_content(/define module {/) }
+  end
+
 end
