@@ -37,7 +37,9 @@ class shinken::module::mongodb(
   $replica_set = '',
 ){
 
-  # TODO Install mod-mongodb
+  # Install mod-mongodb
+  shinken::install { 'mod-mongodb': }
+
 
   $manage_credential_hash = {
     'username' => $username,

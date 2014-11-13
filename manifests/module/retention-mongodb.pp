@@ -35,7 +35,8 @@ class shinken::module::retention-mongodb (
   $replica_set = '',
 ){
 
-  # TODO Install retention-mongodb
+  # Install retention-mongodb
+  shinken::install { 'retention-mongodb': }
 
   $manage_replica_set_hash = {
     'replica_set' => $replica_set,
