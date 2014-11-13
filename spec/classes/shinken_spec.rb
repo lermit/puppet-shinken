@@ -202,5 +202,19 @@ describe 'shinken' do
     it { should contain_file('shinken-arbiter.conf').with_notify(nil) }
   end
 
+  describe 'Test shinken cmd config file creation' do
+    it { should contain_file('shinken.ini').with_ensure('present') }
+    it { should contain_file('shinken.ini').with_path('/root/.shinken.ini') }
+    it { should contain_file('shinken.ini').with_content(/\[shinken\.io\]/) }
+  end
+
+  describe 'Test shinken cmd config file creation - set api_key and proxy' do
+    let (:params) { {
+      :api_key => '42424242API',
+      :proxy   => 'proxy42',
+    } }
+    it { should contain_file('shinken.ini').with_content(/api_key = 42424242API/) }
+    it { should contain_file('shinken.ini').with_content(/proxy = proxy42/) }
+  end
 end
 

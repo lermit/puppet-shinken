@@ -26,6 +26,14 @@
 #     enabled_service => [ 'poller', 'scheduler' ],
 #   }
 #
+# [*api_key*]
+#  Your Shinken.io api key.
+#  Default: ''
+#
+# [*proxy*]
+#  Proxy to use in order to acceed shinken.io
+#  Default: ''
+#
 # == Parameters
 #
 # Standard class parameters
@@ -228,6 +236,8 @@ class shinken (
   $pip_package          = params_lookup( 'pip_package' ),
   $pycurl_package       = params_lookup( 'pycurl_package' ),
   $enabled_service      = params_lookup( 'enabled_service' ),
+  $api_key              = params_lookup( 'api_key' ),
+  $proxy                = params_lookup( 'proxy' ),
   $my_class             = params_lookup( 'my_class' ),
   $source               = params_lookup( 'source' ),
   $source_dir           = params_lookup( 'source_dir' ),
@@ -411,6 +421,19 @@ class shinken (
     ensure   => $shinken::manage_package,
     name     => $shinken::pycurl_package,
     noop     => $shinken::bool_noops,
+  }
+
+  file { 'shinken.ini':
+    ensure  => $shinken::manage_file,
+    path    => '/root/.shinken.ini',
+    mode    => $shinken::config_file_mode,
+    owner   => $shinken::config_file_owner,
+    group   => $shinken::config_file_group,
+    require => Package[$shinken::package],
+    content => template('shinken/shinken.ini.erb'),
+    replace => $shinken::manage_file_replace,
+    audit   => $shinken::manage_audit,
+    noop    => $shinken::bool_noops,
   }
 
 

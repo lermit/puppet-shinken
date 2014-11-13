@@ -16,5 +16,5 @@ libexec = %(lib)s/libexec
 # proxy: curl style, should look as http://user:password@server:3128
 # api_key: useful for publishing packages or earn xp after each install. create an account at http://shinken.io and go to http://shinken.io/~
 
-proxy = 
+proxy = <%= scope.lookupvar('shinken::proxy') %>
 api_key = <%= scope.lookupvar('shinken::api_key') %>

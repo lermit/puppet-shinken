@@ -124,5 +124,7 @@ class shinken::params {
   }
 
   $enabled_service = ''
+  $api_key = ''
+  $proxy = ''
 
 }
