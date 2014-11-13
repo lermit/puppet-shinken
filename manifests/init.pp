@@ -346,7 +346,7 @@ class shinken (
   $manage_service_autorestart = $shinken::bool_service_autorestart ? {
     true  => $shinken::bool_service_autorestart ? {
       true  => undef,
-      false => Service[shinken],
+      false => Service[shinken-arbiter],
     },
     false => undef,
   }
@@ -418,9 +418,9 @@ class shinken (
     require  => $shinken::manage_package_require,
   }
   package { 'pycurl':
-    ensure   => $shinken::manage_package,
-    name     => $shinken::pycurl_package,
-    noop     => $shinken::bool_noops,
+    ensure => $shinken::manage_package,
+    name   => $shinken::pycurl_package,
+    noop   => $shinken::bool_noops,
   }
 
   file { 'shinken.ini':
@@ -437,53 +437,71 @@ class shinken (
   }
 
 
-  service { 'shinken':
-    ensure     => $shinken::manage_service_ensure,
-    name       => $shinken::service,
-    enable     => $shinken::manage_service_enable,
-    hasstatus  => $shinken::service_status,
-    pattern    => $shinken::process,
-    require    => Package[$shinken::package],
-    noop       => $shinken::bool_noops,
+  $manage_shinken_poller_disable = $shinken::bool_absent ? {
+    true  => true,
+    false => $shinken::bool_disable ? {
+      true  => true,
+      false => $shinken::enabled_service ? {
+        /poller/ => false,
+        default  => $shinken::bool_separate_service,
+      }
+    }
+  }
+  $manage_shinken_scheduler_disable = $shinken::bool_absent ? {
+    true  => true,
+    false => $shinken::bool_disable ? {
+      true  => true,
+      false => $shinken::enabled_service ? {
+        /scheduler/ => false,
+        default     => $shinken::bool_separate_service,
+      }
+    }
+  }
+  $manage_shinken_reactionner_disable = $shinken::bool_absent ? {
+    true  => true,
+    false => $shinken::bool_disable ? {
+      true  => true,
+      false => $shinken::enabled_service ? {
+        /reactionner/ => false,
+        default       => $shinken::bool_separate_service,
+      }
+    }
+  }
+  $manage_shinken_broker_disable = $shinken::bool_absent ? {
+    true  => true,
+    false => $shinken::bool_disable ? {
+      true  => true,
+      false => $shinken::enabled_service ? {
+        /broker/ => false,
+        default  => $shinken::bool_separate_service,
+      }
+    }
+  }
+  $manage_shinken_arbiter_disable = $shinken::bool_absent ? {
+    true  => true,
+    false => $shinken::bool_disable ? {
+      true  => true,
+      false => $shinken::enabled_service ? {
+        /arbiter/ => false,
+        default   => $shinken::bool_separate_service,
+      }
+    }
   }
 
-  $manage_shinken_poller_disable = $shinken::enabled_service ? {
-    /poller/ => false,
-    default  => true,
+  class { 'shinken::daemon::poller':
+    disable => $manage_shinken_poller_disable,
   }
-  $manage_shinken_scheduler_disable = $shinken::enabled_service ? {
-    /scheduler/ => false,
-    default  => true,
+  class { 'shinken::daemon::scheduler':
+    disable => $manage_shinken_scheduler_disable,
   }
-  $manage_shinken_reactionner_disable = $shinken::enabled_service ? {
-    /reactionner/ => false,
-    default  => true,
+  class { 'shinken::daemon::reactionner':
+    disable => $manage_shinken_reactionner_disable,
   }
-  $manage_shinken_broker_disable = $shinken::enabled_service ? {
-    /broker/ => false,
-    default  => true,
+  class { 'shinken::daemon::broker':
+    disable => $manage_shinken_broker_disable,
   }
-  $manage_shinken_arbiter_disable = $shinken::enabled_service ? {
-    /arbiter/ => false,
-    default  => true,
-  }
-
-  if $shinken::bool_separate_service {
-    class { 'shinken::daemon::poller':
-      disable => $manage_shinken_poller_disable,
-    }
-    class { 'shinken::daemon::scheduler':
-      disable => $manage_shinken_scheduler_disable,
-    }
-    class { 'shinken::daemon::reactionner':
-      disable => $manage_shinken_reactionner_disable,
-    }
-    class { 'shinken::daemon::broker':
-      disable => $manage_shinken_broker_disable,
-    }
-    class { 'shinken::daemon::arbiter':
-      disable => $manage_shinken_arbiter_disable,
-    }
+  class { 'shinken::daemon::arbiter':
+    disable => $manage_shinken_arbiter_disable,
   }
 
   # The whole shinken configuration directory can be recursively overriden

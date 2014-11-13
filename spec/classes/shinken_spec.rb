@@ -8,8 +8,16 @@ describe 'shinken' do
 
   describe 'Test standard installation' do
     it { should contain_package('shinken').with_ensure('present') }
-    it { should contain_service('shinken').with_ensure('running') }
-    it { should contain_service('shinken').with_enable('true') }
+    it { should contain_service('shinken-arbiter').with_ensure('running') }
+    it { should contain_service('shinken-poller').with_ensure('running') }
+    it { should contain_service('shinken-reactionner').with_ensure('running') }
+    it { should contain_service('shinken-scheduler').with_ensure('running') }
+    it { should contain_service('shinken-broker').with_ensure('running') }
+    it { should contain_service('shinken-arbiter').with_enable('true') }
+    it { should contain_service('shinken-poller').with_enable('true') }
+    it { should contain_service('shinken-reactionner').with_enable('true') }
+    it { should contain_service('shinken-scheduler').with_enable('true') }
+    it { should contain_service('shinken-broker').with_enable('true') }
   end
 
   describe 'Test installation of a specific version' do
@@ -20,8 +28,16 @@ describe 'shinken' do
   describe 'Test standard installation with monitoring and firewalling' do
     let(:params) { {:monitor => true , :firewall => true, :port => '42', :protocol => 'tcp' } }
     it { should contain_package('shinken').with_ensure('present') }
-    it { should contain_service('shinken').with_ensure('running') }
-    it { should contain_service('shinken').with_enable('true') }
+    it { should contain_service('shinken-arbiter').with_ensure('running') }
+    it { should contain_service('shinken-poller').with_ensure('running') }
+    it { should contain_service('shinken-reactionner').with_ensure('running') }
+    it { should contain_service('shinken-scheduler').with_ensure('running') }
+    it { should contain_service('shinken-broker').with_ensure('running') }
+    it { should contain_service('shinken-arbiter').with_enable('true') }
+    it { should contain_service('shinken-poller').with_enable('true') }
+    it { should contain_service('shinken-reactionner').with_enable('true') }
+    it { should contain_service('shinken-scheduler').with_enable('true') }
+    it { should contain_service('shinken-broker').with_enable('true') }
     it { should contain_monitor__process('shinken_process').with_enable('true') }
     it { should contain_firewall('shinken_tcp_42').with_enable('true') }
   end
@@ -39,8 +55,16 @@ describe 'shinken' do
     it 'should remove User[shinken]' do should contain_group('shinken').with_ensure('absent') end
     it 'should remove Package[pip]' do should contain_package('pip').with_ensure('absent') end
     it 'should remove Package[pycurl]' do should contain_package('pycurl').with_ensure('absent') end
-    it 'should stop Service[shinken]' do should contain_service('shinken').with_ensure('stopped') end
-    it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
+    it { should contain_service('shinken-arbiter').with_ensure('stopped') }
+    it { should contain_service('shinken-poller').with_ensure('stopped') }
+    it { should contain_service('shinken-reactionner').with_ensure('stopped') }
+    it { should contain_service('shinken-scheduler').with_ensure('stopped') }
+    it { should contain_service('shinken-broker').with_ensure('stopped') }
+    it { should contain_service('shinken-arbiter').with_enable('false') }
+    it { should contain_service('shinken-poller').with_enable('false') }
+    it { should contain_service('shinken-reactionner').with_enable('false') }
+    it { should contain_service('shinken-scheduler').with_enable('false') }
+    it { should contain_service('shinken-broker').with_enable('false') }
     it { should contain_monitor__process('shinken_process').with_enable('false') }
     it { should contain_firewall('shinken_tcp_42').with_enable('false') }
   end
@@ -52,8 +76,16 @@ describe 'shinken' do
     it { should contain_package('pycurl').with_ensure('present') }
     it { should contain_user('shinken').with_ensure('present') }
     it { should contain_group('shinken').with_ensure('present') }
-    it 'should stop Service[shinken]' do should contain_service('shinken').with_ensure('stopped') end
-    it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
+    it { should contain_service('shinken-arbiter').with_ensure('stopped') }
+    it { should contain_service('shinken-poller').with_ensure('stopped') }
+    it { should contain_service('shinken-reactionner').with_ensure('stopped') }
+    it { should contain_service('shinken-scheduler').with_ensure('stopped') }
+    it { should contain_service('shinken-broker').with_ensure('stopped') }
+    it { should contain_service('shinken-arbiter').with_enable('false') }
+    it { should contain_service('shinken-poller').with_enable('false') }
+    it { should contain_service('shinken-reactionner').with_enable('false') }
+    it { should contain_service('shinken-scheduler').with_enable('false') }
+    it { should contain_service('shinken-broker').with_enable('false') }
     it { should contain_monitor__process('shinken_process').with_enable('false') }
     it { should contain_firewall('shinken_tcp_42').with_enable('false') }
   end
@@ -63,7 +95,21 @@ describe 'shinken' do
     it { should contain_package('shinken').with_ensure('present') }
     it { should_not contain_service('shinken').with_ensure('present') }
     it { should_not contain_service('shinken').with_ensure('absent') }
-    it 'should not enable at boot Service[shinken]' do should contain_service('shinken').with_enable('false') end
+    it { should_not contain_service('shinken-arbiter').with_ensure('present') }
+    it { should_not contain_service('shinken-poller').with_ensure('present') }
+    it { should_not contain_service('shinken-reactionner').with_ensure('present') }
+    it { should_not contain_service('shinken-scheduler').with_ensure('present') }
+    it { should_not contain_service('shinken-broker').with_ensure('present') }
+    it { should_not contain_service('shinken-arbiter').with_ensure('absent') }
+    it { should_not contain_service('shinken-poller').with_ensure('absent') }
+    it { should_not contain_service('shinken-reactionner').with_ensure('absent') }
+    it { should_not contain_service('shinken-scheduler').with_ensure('absent') }
+    it { should_not contain_service('shinken-broker').with_ensure('absent') }
+    it { should contain_service('shinken-arbiter').with_enable('false') }
+    it { should contain_service('shinken-poller').with_enable('false') }
+    it { should contain_service('shinken-reactionner').with_enable('false') }
+    it { should contain_service('shinken-scheduler').with_enable('false') }
+    it { should contain_service('shinken-broker').with_enable('false') }
     it { should contain_monitor__process('shinken_process').with_enable('false') }
     it { should contain_firewall('shinken_tcp_42').with_enable('true') }
   end
@@ -90,7 +136,11 @@ describe 'shinken' do
     it { should contain_package('pycurl').with_noop('true') }
     it { should contain_user('shinken').with_noop('true') }
     it { should contain_group('shinken').with_noop('true') }
-    it { should contain_service('shinken').with_noop('true') }
+    it { should contain_service('shinken-arbiter').with_noop('true') }
+    it { should contain_service('shinken-poller').with_noop('true') }
+    it { should contain_service('shinken-reactionner').with_noop('true') }
+    it { should contain_service('shinken-scheduler').with_noop('true') }
+    it { should contain_service('shinken-broker').with_noop('true') }
     it { should contain_monitor__process('shinken_process').with_noop('true') }
     it { should contain_monitor__process('shinken_process').with_noop('true') }
     it { should contain_monitor__port('shinken_tcp_42').with_noop('true') }
@@ -152,10 +202,6 @@ describe 'shinken' do
 
   describe 'Test enabled_service option' do
     let(:params) { {:enabled_service => [ 'poller', 'broker' ] } }
-
-    # Global service
-    it { should contain_service('shinken').with_ensure('stopped') }
-    it { should contain_service('shinken').with_enable('false') }
 
     # Poller service
     it { should contain_service('shinken-poller').with_ensure('running') }

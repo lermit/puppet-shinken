@@ -1,6 +1,6 @@
 require "#{File.join(File.dirname(__FILE__),'..','spec_helper.rb')}"
 
-describe 'shinken::daemon::reactionner' do
+describe 'shinken' do
 
   let(:title) { 'shinken::daemon::reactionner' }
   let(:node) { 'rspec.example42.com' }
