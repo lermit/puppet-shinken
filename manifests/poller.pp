@@ -8,7 +8,7 @@ define shinken::poller(
   $spare               = false,
   $realm               = 'All',
   $manage_sub_realms   = false,
-  $poller_tags         = '',
+  $poller_tags         = 'None',
   $modules             = '',
   $min_workers         = 0,
   $max_workers         = 0,
