@@ -13,6 +13,7 @@ describe 'shinken::scheduler', :type => :define do
     it { should contain_file('shinken-config-schedulers/master.cfg').with_path('/etc/shinken/schedulers/master.cfg') }
     it { should contain_file('shinken-config-schedulers/master.cfg').with_content(/define scheduler {/) }
     it { should contain_file('shinken-config-schedulers/master.cfg').with_content(/address 10.42.42.42/) }
+    it { should contain_file('shinken-config-schedulers/master.cfg').with_content(/port 7768/) }
     it { should contain_file('shinken-config-schedulers/master.cfg').with_content(/spare 0/) }
     it { should contain_file('shinken-config-schedulers/master.cfg').with_content(/use_ssl 0/) }
     it { should contain_file('shinken-config-schedulers/master.cfg').with_content(/hard_ssl_name_check 0/) }

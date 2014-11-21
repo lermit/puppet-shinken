@@ -4,7 +4,7 @@
 define shinken::scheduler(
   $scheduler_name     = $name,
   $address             = $::ipaddress,
-  $port                = 7771,
+  $port                = 7768,
   $spare               = false,
   $weight              = 1,
   $realm               = 'All',
