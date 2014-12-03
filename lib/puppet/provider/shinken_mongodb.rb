@@ -11,7 +11,7 @@ class Puppet::Provider::Shinken_mongodb < Puppet::Provider::Shinken
     if @@collection == nil
       debug "Connect to MongoDB server"
       # Connect a Mongodb collection and store connection into @@collection
-      @@collection = MongoClient.new.db('shinken').collection(collection_name)
+      @@collection = Mongo::Connection.new(Facter['shinken_mongo_host'].value).db('shinken').collection(collection_name)
     end
     @@collection
   end
